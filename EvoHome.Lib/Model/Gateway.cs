@@ -30,6 +30,7 @@ namespace Evohome.Lib
         }
 
         List<TemperatureControlSystem> _temperatureControlSystems;
+        [JsonProperty(PropertyName ="temperatureControlSystems")]
         public List<TemperatureControlSystem> TemperatureControlSystems
         {
             get
