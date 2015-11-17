@@ -61,7 +61,7 @@ namespace Evohome.Lib
 
         public async Task CacheAllSchedules()
         {
-            var tsks = (from z in Zones select z.CacheSchedule()).ToArray();
+            var tsks = (from z in Zones select z.UpdateSchedule()).ToArray();
             Task.WaitAll(tsks);
         }
 

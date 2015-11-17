@@ -6,6 +6,7 @@ namespace Evohome.Lib
 {
     public class Zone
     {
+        private ScheduleSet _schedule = null;
         [JsonProperty(PropertyName ="zoneId")]
         public string ZoneId
         {
@@ -43,23 +44,48 @@ namespace Evohome.Lib
             set;
         }
 
+        /// <summary>
+        /// The current schedule as cached by calling CacheSchedule
+        /// </summary>
         [JsonIgnore]
         public ScheduleSet Schedule
-        { get; set; }
+        { get
+            {
+                if (_schedule== null)
+                    UpdateSchedule().Wait();
+                return _schedule;
+            }
+            private set { _schedule = value; }
+        }
 
-        public async Task CacheSchedule()
+        /// <summary>
+        /// Forces repopulation of Schedule property with data from the server
+        /// </summary>
+        /// <returns></returns>
+        public async Task UpdateSchedule()
         {
             this.Schedule = await GetSchedule();
         }
 
+        /// <summary>
+        /// Gets the current schedule direct from the servers
+        /// </summary>
+        /// <returns></returns>
         public async Task<ScheduleSet> GetSchedule()
         {
             return await Controller.MakeGetRequest<ScheduleSet>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId));
         }
 
+        /// <summary>
+        /// Saves the schedule back to the server
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns></returns>
         public async Task SetSchedule(ScheduleSet set)
         {
             await Controller.SendData(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId), new ScheduleSetWrite(set));
+            if (Schedule!= null)
+                await UpdateSchedule();
         }
 
         [JsonIgnore]
