@@ -59,6 +59,12 @@ namespace Evohome.Lib
             private set;
         }
 
+        public async Task CacheAllSchedules()
+        {
+            var tsks = (from z in Zones select z.CacheSchedule()).ToArray();
+            Task.WaitAll(tsks);
+        }
+
         [JsonIgnore]
         public Gateway Parent
         {
