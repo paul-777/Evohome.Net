@@ -43,6 +43,15 @@ namespace Evohome.Lib
             set;
         }
 
+        [JsonIgnore]
+        public ScheduleSet Schedule
+        { get; set; }
+
+        public async Task CacheSchedule()
+        {
+            this.Schedule = await GetSchedule();
+        }
+
         public async Task<ScheduleSet> GetSchedule()
         {
             return await Controller.MakeGetRequest<ScheduleSet>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId));

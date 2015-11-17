@@ -28,10 +28,15 @@ namespace Evohome.Lib
         }
 
         [JsonIgnore]
-        public DateTime Time
+        public DateTime TimeAsDateTime
         {
             get { return DateTime.ParseExact(TimeOfDay, "HH:mm:ss", null); }
             set { TimeOfDay = value.ToString("HH:mm:ss"); }
+        }
+
+        public TimeSpan Time
+        {
+            get { return TimeAsDateTime.TimeOfDay; }
         }
     }
 }
