@@ -33,7 +33,7 @@ namespace Evohome.Lib
             get { return DateTime.ParseExact(TimeOfDay, "HH:mm:ss", null); }
             set { TimeOfDay = value.ToString("HH:mm:ss"); }
         }
-
+        [JsonIgnore]
         public TimeSpan Time
         {
             get { return TimeAsDateTime.TimeOfDay; }

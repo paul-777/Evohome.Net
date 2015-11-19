@@ -17,12 +17,14 @@ namespace Evohome.Lib
             get;
             set;
         }
+
         [JsonProperty(PropertyName ="activeFaults")]
-        public List<string> ActiveFaults
+        public List<ActiveFault> ActiveFaults
         {
             get;
             set;
         }
+
         [JsonProperty(PropertyName ="heatSetpointStatus")]
         public HeatSetpointStatus HeatSetpointStatus
         {
