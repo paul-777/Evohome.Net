@@ -73,7 +73,7 @@ namespace Evohome.Lib
         /// <returns></returns>
         public async Task<ScheduleSet> GetSchedule()
         {
-            return await Controller.MakeGetRequest<ScheduleSet>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId));
+            return await Controller.MakeGetRequest<ScheduleSet>(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Evohome.Lib
         /// <returns></returns>
         public async Task SetSchedule(ScheduleSet set)
         {
-            await Controller.SendData(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId), new ScheduleSetWrite(set));
+            await Controller.SendData(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/temperatureZone/{0}/schedule", ZoneId), new ScheduleSetWrite(set));
             if (Schedule!= null)
                 await UpdateSchedule();
         }
@@ -121,7 +121,7 @@ namespace Evohome.Lib
             TemperatureWrite ts = new TemperatureWrite()
             {HeatSetpointValue = temp};
             ts.TimeUntilDt =until;
-            await Controller.SendData(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/heatSetpoint", ZoneId), ts);
+            await Controller.SendData(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/temperatureZone/{0}/heatSetpoint", ZoneId), ts);
         }
 
         public async Task CancelTemperatureOverride()
@@ -129,7 +129,7 @@ namespace Evohome.Lib
             TemperatureWrite ts = new TemperatureWrite()
             {HeatSetpointValue = 0};
             ts.SetpointMode = TemperatureWrite.Mode.Cancel;
-            await Controller.SendData(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureZone/{0}/heatSetpoint", ZoneId), ts);
+            await Controller.SendData(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/temperatureZone/{0}/heatSetpoint", ZoneId), ts);
         }
     }
 }

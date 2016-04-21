@@ -13,7 +13,7 @@ namespace Evohome.Lib
 
     public class Controller
     {
-
+        public static readonly string RootUrl = "https://tccna.honeywell.com";
         SemaphoreSlim sem = new SemaphoreSlim(1);
         private LoginResult LoginData
         {
@@ -56,7 +56,7 @@ namespace Evohome.Lib
 
         public async Task Login()
         {
-            string url = "https://rs.alarmnet.com:443/TotalConnectComfort/Auth/OAuth/Token";
+            string url = "https://tccna.honeywell.com/Auth/OAuth/Token";
             using (var client = new HttpClient())
             {
                 var data = new Dictionary<string, string>
@@ -93,12 +93,12 @@ namespace Evohome.Lib
 
         private async Task UserAccount()
         {
-            AccountInfo = await MakeGetRequest<AccountInfo>("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/userAccount");
+            AccountInfo = await MakeGetRequest<AccountInfo>("https://tccna.honeywell.com/WebAPI/emea/api/v1/userAccount");
         }
 
         public async Task RefreshSetup()
         {
-            var info = await MakeGetRequest<Location[]>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/location/installationInfo?userId={0}&includeTemperatureControlSystems=True", AccountInfo.UserId));
+            var info = await MakeGetRequest<Location[]>(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/location/installationInfo?userId={0}&includeTemperatureControlSystems=True", AccountInfo.UserId));
             foreach (var loc in info)
                 loc.Controller = this;
             Locations.Clear();
@@ -108,7 +108,7 @@ namespace Evohome.Lib
         /*
         public async Task<object> FullInstallation(InstallationModel.LocationInfo location)
         {
-            return await MakeGetRequest<InstallationModel.Location>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/location/{0}/installationInfo?includeTemperatureControlSystems=True", location.locationId));
+            return await MakeGetRequest<InstallationModel.Location>(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/location/{0}/installationInfo?includeTemperatureControlSystems=True", location.locationId));
         }*/
 
 
@@ -116,7 +116,7 @@ namespace Evohome.Lib
         /*
         private async Task<object> Gateway()
         {
-            return await MakeGetRequest<Dictionary<string, object>>("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/gateway");
+            return await MakeGetRequest<Dictionary<string, object>>(Controller.RootUrl + "/WebAPI/emea/api/v1/gateway");
         }
         */
 

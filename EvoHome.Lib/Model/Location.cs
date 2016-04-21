@@ -40,7 +40,7 @@ namespace Evohome.Lib
 
         public async Task UpdateStatus()
         {
-            var status = await Controller.MakeGetRequest<LocationStatus>(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/location/{0}/status?includeTemperatureControlSystems=True", LocationInfo.LocationId));
+            var status = await Controller.MakeGetRequest<LocationStatus>(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/location/{0}/status?includeTemperatureControlSystems=True", LocationInfo.LocationId));
             foreach (var g in Gateways)
                 g.UpdateStatus((
                     from gs in status.Gateways

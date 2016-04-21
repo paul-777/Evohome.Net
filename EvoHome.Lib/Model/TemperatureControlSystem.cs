@@ -95,7 +95,7 @@ namespace Evohome.Lib
         {
             StateSet ts = new StateSet()
             {SystemMode = st, TimeUntilDt = until};
-            await Controller.SendData(string.Format("https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/temperatureControlSystem/{0}/mode", SystemId), ts);
+            await Controller.SendData(string.Format(Controller.RootUrl + "/WebAPI/emea/api/v1/temperatureControlSystem/{0}/mode", SystemId), ts);
         }
 
         public class StateSet
